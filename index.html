@@ -12,6 +12,9 @@
             --p3: #ee9ca7;
             --p4: #ffdde1;
             --deep-pink: #c9184a;
+            --glass: rgba(255, 255, 255, 0.2);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --shadow: 0 20px 45px rgba(0, 0, 0, 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,12 +24,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* خلفية متحركة بتدريج ألوان البينك */
             background: linear-gradient(-45deg, var(--p1), var(--p2), var(--p3), var(--p4));
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             font-family: 'Poppins', sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
             padding: 20px;
         }
 
@@ -36,7 +38,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* حاوية الجزيئات المتساقطة */
         #particles {
             position: fixed;
             top: 0; left: 0;
@@ -55,115 +56,154 @@
             to { transform: translateY(110vh) rotate(360deg); }
         }
 
-        /* الحاوية الرئيسية */
+        /* الكارت الرئيسي */
         .card {
             position: relative;
             z-index: 2;
             width: 100%;
-            max-width: 450px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: 40px 25px;
+            max-width: 600px; /* تم تكبير العرض الأقصى للكارت */
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: clamp(30px, 5vw, 50px);
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .heart {
-            font-size: clamp(40px, 10vw, 60px);
-            animation: pulse 1.5s infinite;
+            font-size: clamp(50px, 10vw, 80px);
+            animation: pulse 1.8s infinite;
             display: inline-block;
             margin-bottom: 10px;
+            filter: drop-shadow(0 5px 15px rgba(201, 24, 74, 0.3));
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 0px var(--deep-pink)); }
-            50% { transform: scale(1.15); filter: drop-shadow(0 0 15px var(--deep-pink)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 0px var(--deep-pink)); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         h1 {
             font-family: 'Dancing Script', cursive;
             color: var(--deep-pink);
-            font-size: clamp(2rem, 8vw, 3rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             margin-bottom: 10px;
         }
 
         .since-date {
-            font-size: 0.75rem;
+            font-size: clamp(0.7rem, 2vw, 0.85rem);
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #666;
-            background: rgba(255, 255, 255, 0.4);
-            padding: 5px 15px;
-            border-radius: 20px;
+            letter-spacing: 2.5px;
+            color: #5d5d5d;
+            background: rgba(255, 255, 255, 0.45);
+            padding: 8px 20px;
+            border-radius: 50px;
             display: inline-block;
-            margin-bottom: 30px;
+            margin-bottom: clamp(25px, 5vw, 40px);
             font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        /* تنسيق العداد المتقدم */
+        /* العداد المطور (حل مشكلة الحجم) */
         .timer-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 35px;
+            gap: clamp(10px, 2vw, 20px);
+            margin-bottom: clamp(30px, 5vw, 45px);
         }
 
         .time-box {
             background: rgba(255, 255, 255, 0.85);
-            padding: 15px 10px;
-            border-radius: 18px;
-            min-width: 80px;
-            flex: 1 1 calc(33.33% - 12px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            display: none; /* سيظهر بواسطة JS فقط إذا كان القيمة > 0 */
-            transition: all 0.3s ease;
+            padding: clamp(15px, 3vw, 25px) 10px;
+            border-radius: 22px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            min-width: clamp(90px, 20vw, 130px); /* ضمان عرض مناسب لكل صندوق */
+            flex: 1 1 110px; /* مرونة في التوسع */
+            transition: transform 0.3s ease;
+            display: none;
         }
 
-        .time-box span {
-            display: block;
-        }
+        .time-box:hover { transform: translateY(-5px); }
 
         .num {
-            font-size: 1.5rem;
-            font-weight: 600;
+            display: block;
+            font-size: clamp(1.8rem, 4vw, 2.5rem); /* تكبير الأرقام */
+            font-weight: 700;
             color: var(--deep-pink);
+            line-height: 1.1;
         }
 
         .label {
-            font-size: 0.65rem;
-            color: #888;
+            display: block;
+            font-size: clamp(0.65rem, 1.5vw, 0.8rem);
+            color: #777;
             text-transform: uppercase;
-            margin-top: 4px;
+            font-weight: 600;
+            margin-top: 8px;
+            letter-spacing: 1px;
         }
 
-        /* قسم الرسالة */
+        /* صندوق الرسالة */
         .message-box {
-            min-height: 100px;
+            min-height: 150px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 20px;
-            position: relative;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
+            padding: clamp(20px, 4vw, 35px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 2px 15px rgba(0,0,0,0.02);
         }
 
         #quote {
-            font-size: clamp(0.95rem, 4vw, 1.1rem);
-            color: #444;
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            color: #333;
             font-style: italic;
-            line-height: 1.6;
+            line-height: 1.8;
             transition: opacity 0.8s ease;
         }
 
-        /* تجاوب الشاشات الصغيرة جداً */
-        @media (max-width: 360px) {
-            .time-box { flex: 1 1 calc(50% - 12px); }
+        /* زر الانتقال */
+        .next-btn {
+            position: fixed;
+            bottom: clamp(20px, 4vw, 40px);
+            right: clamp(20px, 4vw, 40px);
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            text-decoration: none;
+            color: var(--deep-pink);
+            font-weight: 600;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .next-btn:hover {
+            background: var(--deep-pink);
+            color: white;
+            transform: scale(1.08) translateY(-5px);
+        }
+
+        @media (max-width: 400px) {
+            .time-box { min-width: 40%; } /* تظهر كـ 2 في كل صف على الموبايلات الصغيرة جداً */
         }
     </style>
 </head>
@@ -186,15 +226,396 @@
         </div>
 
         <div class="message-box">
-            <p id="quote">Your special message is being prepared...</p>
+            <p id="quote">Your special message is being chosen...</p>
         </div>
     </div>
 
-    <script>
-        // التاريخ المستهدف
-        const targetDate = new Date("June 2, 2026 00:00:00").getTime();
+    <a href="love.html" class="next-btn">
+        ❤️
+    </a>
 
-        // تحديث العداد مع ميزة إخفاء الصفر
+    <script>
+        const targetDate = new Date("June 2, 2026 00:00:00").getTime();
+        
+        // القائمة الكبيرة للرسائل (نفس القائمة التي أرسلتها أنت)
+        const messages = [
+            "You make every day feel a little more special.",
+            "Malak every time I think about you my heart slows down just to feel you more",
+            "Maloktyyyy you are not just my love you are my entire peace",
+            "My queen I didn’t believe in destiny until I found you",
+            "Malak your love feels like home even when I’m far away",
+            "Maloktyyyy you turned my life into a beautiful story I never expected",
+            "My princess I don’t need the stars when I already have your eyes",
+            "Malak you are the reason my world finally makes sense",
+            "Maloktyyyy every moment without you feels like a page missing from my life",
+            "My queen I don’t just love you I choose you again and again",
+            "Malak your presence is the calm in all my storms",
+            "Maloktyyyy I never knew silence could feel so beautiful until I thought of you",
+            "My princess you are the softest part of my hardest days",
+            "Malak I love you in ways words are too small to explain",
+            "Maloktyyyy you are my favorite kind of forever",
+            "My queen if love had a face it would look exactly like you",
+            "Malak you are the reason I smile at nothing and everything",
+            "Maloktyyyy I carry you in every thought I have",
+            "My princess your love feels like a warm light I never want to lose",
+            "Malak I don’t need a perfect life I just need you in it",
+            "Maloktyyyy you are the most beautiful coincidence of my life",
+            "My queen every heartbeat whispers your name quietly",
+            "Malak loving you is the most natural thing I’ve ever known",
+            "Maloktyyyy you turned my ordinary world into something magical",
+            "My princess I find pieces of you in everything I do",
+            "Malak you are my favorite reason to wake up with hope",
+            "Maloktyyyy I don’t look for happiness anymore I already found you",
+            "My queen your love is the safest place my heart knows",
+            "Malak even in a crowded room my heart only looks for you",
+            "Maloktyyyy you are the dream I keep living even when I’m awake",
+            "My princess I love you more in every quiet moment than in words",
+            "Malak you are the chapter I never want to end",
+            "Maloktyyyy my soul feels lighter just knowing you exist",
+            "My queen you make forever feel real and close",
+            "Malak I didn’t choose to fall for you it just happened naturally",
+            "Maloktyyyy you are the reason my heart learned how to feel again",
+            "My princess every part of me feels better when I’m with you",
+            "Malak your love is the most beautiful direction my life has taken",
+            "Maloktyyyy I don’t need perfect days as long as I have you",
+            "My queen you are the answer to every silent prayer I made",
+            "Malak I could search the world and still never find someone like you",
+            "Maloktyyyy your smile rewrites my entire day",
+            "My princess you are my safest thought in every moment",
+            "Malak you are the reason love feels real to me",
+            "Maloktyyyy I love you in a way that feels endless",
+            "My queen even time feels different when I’m thinking of you",
+            "Malak you are the most beautiful part of my existence",
+            "Maloktyyyy I don’t just miss you I feel incomplete without you",
+            "My princess you are my always, in every version of life",
+            "My favorite part of the day is talking to you.",
+            "You have a way of making everything better.",
+            "I still get excited every time I see your name.",
+            "You bring so much warmth into my life.",
+            "Your kindness is one of the things I admire most.",
+            "I love the little moments we share together.",
+            "You have the most comforting presence.",
+            "I never run out of reasons to appreciate you.",
+            "You make even the simplest memories unforgettable.",
+            "I admire your strength and your gentle heart.",
+            "You are one of the best things in my life.",
+            "I feel lucky whenever I think about you.",
+            "You have a smile that can brighten any day.",
+            "I enjoy every conversation we have.",
+            "You make my heart feel at peace.",
+            "Being around you makes me genuinely happy.",
+            "I cherish the bond we have together.",
+            "You understand me in ways no one else does.",
+            "I love the way you care about others.",
+            "You are beautiful in your own unique way.",
+            "I appreciate your patience and understanding.",
+            "You bring out the best version of me.",
+            "I could listen to you talk for hours.",
+            "Your laughter is one of my favorite sounds.",
+            "I admire your determination and confidence.",
+            "You make ordinary moments feel meaningful.",
+            "I am thankful for your support.",
+            "You have a heart full of compassion.",
+            "I love the way you see the good in people.",
+            "You always know how to make me smile.",
+            "I enjoy building memories with you.",
+            "You are an important part of my life.",
+            "I admire your honesty and sincerity.",
+            "You make life feel more exciting.",
+            "I appreciate the effort you put into everything.",
+            "Your presence makes difficult days easier.",
+            "You inspire me to keep growing.",
+            "I admire the way you handle challenges.",
+            "You have a beautiful soul.",
+            "I love your sense of humor.",
+            "You make every goodbye difficult.",
+            "I appreciate the trust we share.",
+            "You have an incredible way of caring for people.",
+            "I am grateful for your encouragement.",
+            "You make me feel understood.",
+            "Your positivity is contagious.",
+            "I value every moment we spend together.",
+            "My princess your happiness means everything to me.",
+            "Maloktyyyy I never knew love could feel this peaceful until I met you.",
+            "Malak your voice is my favorite sound.",
+            "My queen I could spend forever getting to know you.",
+            "Maloktyyyy every moment with you becomes my favorite memory.",
+            "Malak you make my world brighter without even trying.",
+            "My love I thank God every day for you.",
+            "Maloktyyyy you are my greatest blessing.",
+            "Malak I still smile whenever I think about you.",
+            "I admire your intelligence and creativity.",
+            "You have a wonderful way of making people feel valued.",
+            "I love how genuine you are.",
+            "You make me excited about the future.",
+            "I appreciate the little things you do.",
+            "Your support means more than you know.",
+            "I admire your courage and resilience.",
+            "You have a heart worth protecting.",
+            "I enjoy learning new things about you.",
+            "You bring comfort wherever you go.",
+            "I appreciate your loyalty and honesty.",
+            "You make life feel lighter.",
+            "Your presence is calming and reassuring.",
+            "I admire the way you stay true to yourself.",
+            "You have an amazing perspective on life.",
+            "I feel happier because you're in my life.",
+            "You encourage me to chase my dreams.",
+            "I love the way you celebrate small victories.",
+            "You always know how to lift my spirits.",
+            "I appreciate your thoughtful nature.",
+            "You have a beautiful way of expressing yourself.",
+            "I admire your passion for the things you love.",
+            "You make me feel appreciated.",
+            "I enjoy the comfort of simply being with you.",
+            "You make difficult times easier to face.",
+            "I admire your dedication and hard work.",
+            "You have a wonderful heart.",
+            "I appreciate the memories we've created.",
+            "You bring balance into my life.",
+            "I admire your ability to stay hopeful.",
+            "You make every chapter of life more meaningful.",
+            "I enjoy hearing your opinions and ideas.",
+            "You have a unique way of making people smile.",
+            "I appreciate how supportive you are.",
+            "You encourage me to become better every day.",
+            "I admire your confidence and grace.",
+            "You have a remarkable spirit.",
+            "I enjoy the peace I feel around you.",
+            "You make even rainy days feel brighter.",
+            "I appreciate your endless encouragement.",
+            "You remind me to enjoy the present moment.",
+            "I admire your compassion toward others.",
+            "You have a way of making people feel at home.",
+            "I enjoy every adventure we share.",
+            "You make life more colorful.",
+            "I appreciate your sincerity and warmth.",
+            "You help me see the beauty in everyday life.",
+            "I admire your ability to stay strong.",
+            "You have an unforgettable smile.",
+            "I enjoy creating new memories with you.",
+            "You make my world a little brighter every day.",
+            "I appreciate having you by my side.",
+            "You are someone I deeply value and respect.",
+            "You make my heart feel lighter.",
+            "I love the way you care about the people around you.",
+            "You have a beautiful way of seeing the world.",
+            "I admire your determination and ambition.",
+            "Your happiness matters so much to me.",
+            "I appreciate your honesty and kindness.",
+            "You make every conversation meaningful.",
+            "Meeting you changed my life in ways I never expected.",
+            "I love how you make the world seem softer.",
+            "You turn simple moments into unforgettable memories.",
+            "Your presence feels like a warm embrace.",
+            "I never knew someone could mean this much to me.",
+            "You make my heart feel understood.",
+            "I admire the way you stay kind no matter what.",
+            "You are the highlight of my day.",
+            "I love the way you believe in me.",
+            "Your energy brings life into every room.",
+            "I cherish every story you've shared with me.",
+            "You make my world feel more complete.",
+            "I admire your ability to forgive and move forward.",
+            "You have a way of making people feel seen.",
+            "I feel grateful whenever I think of you.",
+            "You remind me that love can be simple and genuine.",
+            "I love the sparkle in your eyes when you're excited.",
+            "You make even silence feel comfortable.",
+            "I admire your thoughtful heart.",
+            "You bring out emotions I never knew I had.",
+            "I appreciate how patient you are with me.",
+            "You make me look at life differently.",
+            "Your encouragement pushes me to do better.",
+            "I love your ability to find joy in little things.",
+            "You are one of my favorite reasons to smile.",
+            "I admire your honesty, even when it's difficult.",
+            "You make every chapter of life worth reading.",
+            "I appreciate how naturally you care for others.",
+            "You have an unforgettable laugh.",
+            "I enjoy the way we understand each other.",
+            "You make hard days easier to get through.",
+            "I admire your independence and strength.",
+            "You bring a sense of calm wherever you go.",
+            "I appreciate the memories we're still creating.",
+            "You make every conversation worth having.",
+            "I admire the effort you put into your dreams.",
+            "You help me see possibilities instead of limits.",
+            "I appreciate the trust you've given me.",
+            "You make me want to slow down and enjoy life.",
+            "I admire your willingness to keep learning.",
+            "You have a beautiful way of comforting people.",
+            "I appreciate your consistency and reliability.",
+            "You make my favorite moments even better.",
+            "I admire your confidence without arrogance.",
+            "You bring light into places that need it most.",
+            "I appreciate how supportive you are of my goals.",
+            "You make me feel like I matter.",
+            "I admire your emotional strength.",
+            "You have a rare and genuine heart.",
+            "I appreciate the way you celebrate my successes.",
+            "You make ordinary conversations extraordinary.",
+            "I admire your ability to adapt and grow.",
+            "You remind me that kindness is powerful.",
+            "I appreciate your sense of responsibility.",
+            "You make me excited about what's ahead.",
+            "I admire the way you stand up for what you believe in.",
+            "You have an incredible sense of empathy.",
+            "I appreciate your open and honest communication.",
+            "You make every reunion feel special.",
+            "I admire your dedication to the people you love.",
+            "You bring happiness into unexpected moments.",
+            "I appreciate your ability to stay optimistic.",
+            "You make me feel safe being myself.",
+            "I admire how passionate you are about life.",
+            "You have a way of making worries feel smaller.",
+            "I appreciate how attentive you are.",
+            "You make every goodbye harder than it should be.",
+            "I admire your graceful way of handling pressure.",
+            "You bring comfort through your presence alone.",
+            "I appreciate your loyalty through every season.",
+            "You make me believe that good people still exist.",
+            "I admire the care you put into your relationships.",
+            "You have an inspiring way of overcoming obstacles.",
+            "I appreciate your ability to forgive.",
+            "You make every shared dream feel possible.",
+            "I admire your authenticity in every situation.",
+            "You bring balance into my chaotic days.",
+            "I appreciate how deeply you care.",
+            "You make my heart feel at home.",
+            "I admire your gentle approach to life.",
+            "You have a beautiful way of encouraging others.",
+            "I appreciate the joy you spread around you.",
+            "You make me appreciate the present moment.",
+            "I admire your wisdom and maturity.",
+            "You bring meaning to ordinary experiences.",
+            "I appreciate your willingness to understand me.",
+            "You make every milestone more memorable.",
+            "I admire your quiet strength.",
+            "You have an amazing gift for making people comfortable.",
+            "I appreciate your endless patience.",
+            "You make me look forward to each new day.",
+            "I admire the kindness behind your actions.",
+            "You bring warmth into every conversation.",
+            "I appreciate the happiness you share with others.",
+            "You make life feel more hopeful.",
+            "I admire your compassionate nature.",
+            "You have a remarkable way of making people feel valued.",
+            "I appreciate the positivity you bring into my life.",
+            "You make every moment together worth remembering.",
+            "I love how passionate you are about your dreams.",
+            "Your presence brings comfort to my life.",
+            "I admire the confidence you carry.",
+            "You have a heart full of love and compassion.",
+            "I enjoy every little adventure with you.",
+            "You make difficult days easier to handle.",
+            "I appreciate the trust we've built together.",
+            "Your smile never fails to brighten my day.",
+            "I admire the way you never give up.",
+            "You make me appreciate the beauty in small moments.",
+            "I love the way you encourage me.",
+            "Your support gives me strength.",
+            "I treasure the memories we've created.",
+            "You inspire me to work harder for my goals.",
+            "I admire your patience and understanding.",
+            "You make ordinary days unforgettable.",
+            "Malak loving you is the easiest thing I've ever done.",
+            "Maloktyyyy your smile is my favorite view in this world.",
+            "Malak every love song reminds me of you.",
+            "My queen you are the reason my heart beats with joy.",
+            "Maloktyyyy no matter how my day goes, talking to you makes it better.",
+            "Malak you are the most beautiful part of my story.",
+            "My queen you make ordinary days feel magical.",
+            "Maloktyyyy your love gives me strength.",
+            "Malak I never get tired of hearing your laugh.",
+            "I appreciate the way you listen to me.",
+            "Your laughter is truly contagious.",
+            "I enjoy the peace I feel around you.",
+            "You make life feel more exciting.",
+            "I admire your positive attitude.",
+            "You have an amazing ability to make others feel special.",
+            "I appreciate your thoughtful gestures.",
+            "You encourage me to become my best self.",
+            "I love how genuine and authentic you are.",
+            "Your kindness makes the world a better place.",
+            "I admire the way you handle challenges.",
+            "You make my happiest moments even happier.",
+            "I appreciate the effort you put into everything.",
+            "Your friendship means so much to me.",
+            "I enjoy learning something new about you every day.",
+            "You make me look forward to tomorrow.",
+            "I admire your creativity and imagination.",
+            "You have a wonderful sense of humor.",
+            "I appreciate the way you care for others.",
+            "Your optimism inspires me.",
+            "I love the way you express yourself.",
+            "You make every memory more precious.",
+            "I admire your courage and resilience.",
+            "You have a calming effect on my heart.",
+            "I appreciate your loyalty and support.",
+            "Your voice has a comforting effect on me.",
+            "I enjoy every moment spent with you.",
+            "You inspire me to stay hopeful.",
+            "I admire your dedication to the things you love.",
+            "You have a truly beautiful spirit.",
+            "I appreciate your understanding nature.",
+            "You make me feel appreciated and valued.",
+            "Your presence brings joy into my world.",
+            "I admire your ability to stay strong.",
+            "Malak being your man is one of the greatest blessings in my life.",
+            "I fall for you a little more every day Maloktyyyy.",
+            "Malak no matter how busy life gets, you'll always be my favorite person.",
+            "My queen your happiness means more to me than words can explain.",
+            "Maloktyyyy I still get butterflies whenever I think about you.",
+            "You make every experience more meaningful.",
+            "I appreciate your endless encouragement.",
+            "You have an incredible amount of patience.",
+            "I enjoy hearing about your dreams and goals.",
+            "You inspire me to think bigger.",
+            "I admire the way you treat people with respect.",
+            "You have a naturally caring heart.",
+            "I appreciate your willingness to help others.",
+            "You make me believe in brighter days.",
+            "I enjoy your company more than words can say.",
+            "You inspire confidence in those around you.",
+            "I admire your ability to stay true to yourself.",
+            "You have a beautiful balance of strength and kindness.",
+            "I appreciate all the little things you do.",
+            "You make life feel more complete.",
+            "I admire the passion you put into everything.",
+            "You have a way of making people feel important.",
+            "I appreciate your thoughtful advice.",
+            "You inspire me to appreciate the present.",
+            "I enjoy the way you see beauty in everyday life.",
+            "You make challenges feel easier to overcome.",
+            "I admire your generous heart.",
+            "You have a gift for making others smile.",
+            "I appreciate the confidence you have in me.",
+            "You inspire me to never stop growing.",
+            "I enjoy the comfort of your presence.",
+            "You make every season of life more meaningful.",
+            "I admire your sincerity and honesty.",
+            "Malak every morning feels brighter because I know you're in my life, Maloktyyyy.",
+            "Maloktyyyy your smile has a way of fixing everything around me.",
+            "Malak you are the most beautiful chapter of my story.",
+            "My heart chose you, Maloktyyyy, and it will always choose you.",
+            "Malak I thank God every day for bringing you into my life.",
+            "You have an incredible inner strength.",
+            "I appreciate the happiness you bring.",
+            "You inspire me to be more compassionate.",
+            "I enjoy the laughter we share.",
+            "You make even quiet moments feel special.",
+            "I admire the warmth you bring into every room.",
+            "You have a beautiful way of supporting others.",
+            "I appreciate your consistent encouragement.",
+            "You inspire me through your actions.",
+            "I enjoy building dreams and memories together.",
+            "You make my world feel brighter.",
+            "I admire your thoughtful and caring nature.",
+            "You have a remarkable ability to spread positivity.",
+            "I appreciate having you in my life."
+        ];
+
         function updateCounter() {
             const now = new Date().getTime();
             let diff = Math.abs(now - targetDate);
@@ -211,351 +632,18 @@
             for (const key in time) {
                 const numEl = document.getElementById(key);
                 const boxEl = document.getElementById('b-' + key);
-                numEl.innerText = time[key];
+                if(numEl) numEl.innerText = time[key];
                 
-                // إخفاء الخانة إذا كانت صفر
-                if (time[key] === 0) {
-                    boxEl.style.display = 'none';
+                if (time[key] > 0 || key === 'sec' || key === 'min') {
+                    if(boxEl) boxEl.style.display = 'block';
                 } else {
-                    boxEl.style.display = 'block';
+                    if(boxEl) boxEl.style.display = 'none';
                 }
             }
         }
 
-         const messages2 = [
-    "You make every day feel a little more special.",
-    "My favorite part of the day is talking to you.",
-    "You have a way of making everything better.",
-    "I still get excited every time I see your name.",
-    "You bring so much warmth into my life.",
-    "Your kindness is one of the things I admire most.",
-    "I love the little moments we share together.",
-    "You have the most comforting presence.",
-    "I never run out of reasons to appreciate you.",
-    "You make even the simplest memories unforgettable.",
-    "I admire your strength and your gentle heart.",
-    "You are one of the best things in my life.",
-    "I feel lucky whenever I think about you.",
-    "You have a smile that can brighten any day.",
-    "I enjoy every conversation we have.",
-    "You make my heart feel at peace.",
-    "Being around you makes me genuinely happy.",
-    "I cherish the bond we have together.",
-    "You understand me in ways no one else does.",
-    "I love the way you care about others.",
-    "You are beautiful in your own unique way.",
-    "I appreciate your patience and understanding.",
-    "You bring out the best version of me.",
-    "I could listen to you talk for hours.",
-    "Your laughter is one of my favorite sounds.",
-    "I admire your determination and confidence.",
-    "You make ordinary moments feel meaningful.",
-    "I am thankful for your support.",
-    "You have a heart full of compassion.",
-    "I love the way you see the good in people.",
-    "You always know how to make me smile.",
-    "I enjoy building memories with you.",
-    "You are an important part of my life.",
-    "I admire your honesty and sincerity.",
-    "You make life feel more exciting.",
-    "I appreciate the effort you put into everything.",
-    "Your presence makes difficult days easier.",
-    "You inspire me to keep growing.",
-    "I admire the way you handle challenges.",
-    "You have a beautiful soul.",
-    "I love your sense of humor.",
-    "You make every goodbye difficult.",
-    "I appreciate the trust we share.",
-    "You have an incredible way of caring for people.",
-    "I am grateful for your encouragement.",
-    "You make me feel understood.",
-    "Your positivity is contagious.",
-    "I value every moment we spend together.",
-    "My princess your happiness means everything to me.",
-    "Maloktyyyy I never knew love could feel this peaceful until I met you.",
-    "Malak your voice is my favorite sound.",
-    "My queen I could spend forever getting to know you.",
-    "Maloktyyyy every moment with you becomes my favorite memory.",
-    "Malak you make my world brighter without even trying.",
-    "My love I thank God every day for you.",
-    "Maloktyyyy you are my greatest blessing.",
-    "Malak I still smile whenever I think about you.",
-    "I admire your intelligence and creativity.",
-    "You have a wonderful way of making people feel valued.",
-    "I love how genuine you are.",
-    "You make me excited about the future.",
-    "I appreciate the little things you do.",
-    "Your support means more than you know.",
-    "I admire your courage and resilience.",
-    "You have a heart worth protecting.",
-    "I enjoy learning new things about you.",
-    "You bring comfort wherever you go.",
-    "I appreciate your loyalty and honesty.",
-    "You make life feel lighter.",
-    "Your presence is calming and reassuring.",
-    "I admire the way you stay true to yourself.",
-    "You have an amazing perspective on life.",
-    "I feel happier because you're in my life.",
-    "You encourage me to chase my dreams.",
-    "I love the way you celebrate small victories.",
-    "You always know how to lift my spirits.",
-    "I appreciate your thoughtful nature.",
-    "You have a beautiful way of expressing yourself.",
-    "I admire your passion for the things you love.",
-    "You make me feel appreciated.",
-    "I enjoy the comfort of simply being with you.",
-    "You make difficult times easier to face.",
-    "I admire your dedication and hard work.",
-    "You have a wonderful heart.",
-    "I appreciate the memories we've created.",
-    "You bring balance into my life.",
-    "I admire your ability to stay hopeful.",
-    "You make every chapter of life more meaningful.",
-    "I enjoy hearing your opinions and ideas.",
-    "You have a unique way of making people smile.",
-    "I appreciate how supportive you are.",
-    "You encourage me to become better every day.",
-    "I admire your confidence and grace.",
-    "You have a remarkable spirit.",
-    "I enjoy the peace I feel around you.",
-    "You make even rainy days feel brighter.",
-    "I appreciate your endless encouragement.",
-    "You remind me to enjoy the present moment.",
-    "I admire your compassion toward others.",
-    "You have a way of making people feel at home.",
-    "I enjoy every adventure we share.",
-    "You make life more colorful.",
-    "I appreciate your sincerity and warmth.",
-    "You help me see the beauty in everyday life.",
-    "I admire your ability to stay strong.",
-    "You have an unforgettable smile.",
-    "I enjoy creating new memories with you.",
-    "You make my world a little brighter every day.",
-    "I appreciate having you by my side.",
-    "You are someone I deeply value and respect.",
-    "You make my heart feel lighter.",
-    "I love the way you care about the people around you.",
-    "You have a beautiful way of seeing the world.",
-    "I admire your determination and ambition.",
-    "Your happiness matters so much to me.",
-    "I appreciate your honesty and kindness.",
-    "You make every conversation meaningful.",
-    "Meeting you changed my life in ways I never expected.",
-    "I love how you make the world seem softer.",
-    "You turn simple moments into unforgettable memories.",
-    "Your presence feels like a warm embrace.",
-    "I never knew someone could mean this much to me.",
-    "You make my heart feel understood.",
-    "I admire the way you stay kind no matter what.",
-    "You are the highlight of my day.",
-    "I love the way you believe in me.",
-    "Your energy brings life into every room.",
-    "I cherish every story you've shared with me.",
-    "You make my world feel more complete.",
-    "I admire your ability to forgive and move forward.",
-    "You have a way of making people feel seen.",
-    "I feel grateful whenever I think of you.",
-    "You remind me that love can be simple and genuine.",
-    "I love the sparkle in your eyes when you're excited.",
-    "You make even silence feel comfortable.",
-    "I admire your thoughtful heart.",
-    "You bring out emotions I never knew I had.",
-    "I appreciate how patient you are with me.",
-    "You make me look at life differently.",
-    "Your encouragement pushes me to do better.",
-    "I love your ability to find joy in little things.",
-    "You are one of my favorite reasons to smile.",
-    "I admire your honesty, even when it's difficult.",
-    "You make every chapter of life worth reading.",
-    "I appreciate how naturally you care for others.",
-    "You have an unforgettable laugh.",
-    "I enjoy the way we understand each other.",
-    "You make hard days easier to get through.",
-    "I admire your independence and strength.",
-    "You bring a sense of calm wherever you go.",
-    "I appreciate the memories we're still creating.",
-    "You make every conversation worth having.",
-    "I admire the effort you put into your dreams.",
-    "You help me see possibilities instead of limits.",
-    "I appreciate the trust you've given me.",
-    "You make me want to slow down and enjoy life.",
-    "I admire your willingness to keep learning.",
-    "You have a beautiful way of comforting people.",
-    "I appreciate your consistency and reliability.",
-    "You make my favorite moments even better.",
-    "I admire your confidence without arrogance.",
-    "You bring light into places that need it most.",
-    "I appreciate how supportive you are of my goals.",
-    "You make me feel like I matter.",
-    "I admire your emotional strength.",
-    "You have a rare and genuine heart.",
-    "I appreciate the way you celebrate my successes.",
-    "You make ordinary conversations extraordinary.",
-    "I admire your ability to adapt and grow.",
-    "You remind me that kindness is powerful.",
-    "I appreciate your sense of responsibility.",
-    "You make me excited about what's ahead.",
-    "I admire the way you stand up for what you believe in.",
-    "You have an incredible sense of empathy.",
-    "I appreciate your open and honest communication.",
-    "You make every reunion feel special.",
-    "I admire your dedication to the people you love.",
-    "You bring happiness into unexpected moments.",
-    "I appreciate your ability to stay optimistic.",
-    "You make me feel safe being myself.",
-    "I admire how passionate you are about life.",
-    "You have a way of making worries feel smaller.",
-    "I appreciate how attentive you are.",
-    "You make every goodbye harder than it should be.",
-    "I admire your graceful way of handling pressure.",
-    "You bring comfort through your presence alone.",
-    "I appreciate your loyalty through every season.",
-    "You make me believe that good people still exist.",
-    "I admire the care you put into your relationships.",
-    "You have an inspiring way of overcoming obstacles.",
-    "I appreciate your ability to forgive.",
-    "You make every shared dream feel possible.",
-    "I admire your authenticity in every situation.",
-    "You bring balance into my chaotic days.",
-    "I appreciate how deeply you care.",
-    "You make my heart feel at home.",
-    "I admire your gentle approach to life.",
-    "You have a beautiful way of encouraging others.",
-    "I appreciate the joy you spread around you.",
-    "You make me appreciate the present moment.",
-    "I admire your wisdom and maturity.",
-    "You bring meaning to ordinary experiences.",
-    "I appreciate your willingness to understand me.",
-    "You make every milestone more memorable.",
-    "I admire your quiet strength.",
-    "You have an amazing gift for making people comfortable.",
-    "I appreciate your endless patience.",
-    "You make me look forward to each new day.",
-    "I admire the kindness behind your actions.",
-    "You bring warmth into every conversation.",
-    "I appreciate the happiness you share with others.",
-    "You make life feel more hopeful.",
-    "I admire your compassionate nature.",
-    "You have a remarkable way of making people feel valued.",
-    "I appreciate the positivity you bring into my life.",
-    "You make every moment together worth remembering.",
-    "I love how passionate you are about your dreams.",
-    "Your presence brings comfort to my life.",
-    "I admire the confidence you carry.",
-    "You have a heart full of love and compassion.",
-    "I enjoy every little adventure with you.",
-    "You make difficult days easier to handle.",
-    "I appreciate the trust we've built together.",
-    "Your smile never fails to brighten my day.",
-    "I admire the way you never give up.",
-    "You make me appreciate the beauty in small moments.",
-    "I love the way you encourage me.",
-    "Your support gives me strength.",
-    "I treasure the memories we've created.",
-    "You inspire me to work harder for my goals.",
-    "I admire your patience and understanding.",
-    "You make ordinary days unforgettable.",
-    "Malak loving you is the easiest thing I've ever done.",
-    "Maloktyyyy your smile is my favorite view in this world.",
-    "Malak every love song reminds me of you.",
-    "My queen you are the reason my heart beats with joy.",
-    "Maloktyyyy no matter how my day goes, talking to you makes it better.",
-    "Malak you are the most beautiful part of my story.",
-    "My queen you make ordinary days feel magical.",
-    "Maloktyyyy your love gives me strength.",
-    "Malak I never get tired of hearing your laugh.",
-    "I appreciate the way you listen to me.",
-    "Your laughter is truly contagious.",
-    "I enjoy the peace I feel around you.",
-    "You make life feel more exciting.",
-    "I admire your positive attitude.",
-    "You have an amazing ability to make others feel special.",
-    "I appreciate your thoughtful gestures.",
-    "You encourage me to become my best self.",
-    "I love how genuine and authentic you are.",
-    "Your kindness makes the world a better place.",
-    "I admire the way you handle challenges.",
-    "You make my happiest moments even happier.",
-    "I appreciate the effort you put into everything.",
-    "Your friendship means so much to me.",
-    "I enjoy learning something new about you every day.",
-    "You make me look forward to tomorrow.",
-    "I admire your creativity and imagination.",
-    "You have a wonderful sense of humor.",
-    "I appreciate the way you care for others.",
-    "Your optimism inspires me.",
-    "I love the way you express yourself.",
-    "You make every memory more precious.",
-    "I admire your courage and resilience.",
-    "You have a calming effect on my heart.",
-    "I appreciate your loyalty and support.",
-    "Your voice has a comforting effect on me.",
-    "I enjoy every moment spent with you.",
-    "You inspire me to stay hopeful.",
-    "I admire your dedication to the things you love.",
-    "You have a truly beautiful spirit.",
-    "I appreciate your understanding nature.",
-    "You make me feel appreciated and valued.",
-    "I love your unique perspective on life.",
-    "Your presence brings joy into my world.",
-    "I admire your ability to stay strong.",
-    "Malak being your man is one of the greatest blessings in my life.",
-    "I fall for you a little more every day Maloktyyyy.",
-    "Malak no matter how busy life gets, you'll always be my favorite person.",
-    "My queen your happiness means more to me than words can explain.",
-    "Maloktyyyy I still get butterflies whenever I think about you.",
-    "You make every experience more meaningful.",
-    "I appreciate your endless encouragement.",
-    "You have an incredible amount of patience.",
-    "I enjoy hearing about your dreams and goals.",
-    "You inspire me to think bigger.",
-    "I admire the way you treat people with respect.",
-    "You have a naturally caring heart.",
-    "I appreciate your willingness to help others.",
-    "You make me believe in brighter days.",
-    "I enjoy your company more than words can say.",
-    "You inspire confidence in those around you.",
-    "I admire your ability to stay true to yourself.",
-    "You have a beautiful balance of strength and kindness.",
-    "I appreciate all the little things you do.",
-    "You make life feel more complete.",
-    "I admire the passion you put into everything.",
-    "You have a way of making people feel important.",
-    "I appreciate your thoughtful advice.",
-    "You inspire me to appreciate the present.",
-    "I enjoy the way you see beauty in everyday life.",
-    "You make challenges feel easier to overcome.",
-    "I admire your generous heart.",
-    "You have a gift for making others smile.",
-    "I appreciate the confidence you have in me.",
-    "You inspire me to never stop growing.",
-    "I enjoy the comfort of your presence.",
-    "You make every season of life more meaningful.",
-    "I admire your sincerity and honesty.",
-    "Malak every morning feels brighter because I know you're in my life, Maloktyyyy.",
-    "Maloktyyyy your smile has a way of fixing everything around me.",
-    "Malak you are the most beautiful chapter of my story.",
-    "My heart chose you, Maloktyyyy, and it will always choose you.",
-    "Malak I thank God every day for bringing you into my life.",
-    "You have an incredible inner strength.",
-    "I appreciate the happiness you bring.",
-    "You inspire me to be more compassionate.",
-    "I enjoy the laughter we share.",
-    "You make even quiet moments feel special.",
-    "I admire the warmth you bring into every room.",
-    "You have a beautiful way of supporting others.",
-    "I appreciate your consistent encouragement.",
-    "You inspire me through your actions.",
-    "I enjoy building dreams and memories together.",
-    "You make my world feel brighter.",
-    "I admire your thoughtful and caring nature.",
-    "You have a remarkable ability to spread positivity.",
-    "I appreciate having you in my life."
-];
-
-        // تحديث الرسالة كل ساعة بشكل غير مكرر
         function updateHourlyMessage() {
-            // نستخدم عدد الساعات منذ بداية التاريخ (Epoch) لضمان تغير الرسالة كل ساعة
+            // استخدام عدد الساعات منذ Epoch لضمان تغير الرسالة كل ساعة وعدم التكرار
             const hoursSinceEpoch = Math.floor(Date.now() / (1000 * 60 * 60));
             const index = hoursSinceEpoch % messages.length;
             
@@ -568,25 +656,27 @@
             }, 800);
         }
 
-        // إنشاء القلوب المتساقطة
         function createParticle() {
-            const particles = ['❤️', '✨', '🌸', '💖', '🤍'];
+            const symbols = ['❤️', '✨', '🌸', '💖', '🤍'];
             const p = document.createElement('div');
             p.classList.add('particle');
-            p.innerText = particles[Math.floor(Math.random() * particles.length)];
+            p.innerText = symbols[Math.floor(Math.random() * symbols.length)];
             p.style.left = Math.random() * 100 + 'vw';
             p.style.fontSize = (Math.random() * 15 + 10) + 'px';
             p.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            p.style.opacity = Math.random() * 0.5 + 0.3;
+            p.style.opacity = Math.random() * 0.4 + 0.3;
             document.getElementById('particles').appendChild(p);
-            
             setTimeout(() => p.remove(), 7000);
         }
 
-        // بدء التشغيل
         setInterval(updateCounter, 1000);
-        setInterval(createParticle, 500);
-        setInterval(updateHourlyMessage, 60000); // يفحص كل دقيقة إذا دخلت ساعة جديدة
+        setInterval(createParticle, 600);
+        
+        // التحقق كل دقيقة من دخول ساعة جديدة
+        setInterval(() => {
+            const now = new Date();
+            if (now.getMinutes() === 0) updateHourlyMessage();
+        }, 60000);
 
         updateCounter();
         updateHourlyMessage();
