@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
-    <!-- خط عصري وبسيط -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <title>For My Love ❤️</title>
+    <!-- خطوط إنجليزية رومانسية وعصرية -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,72 +14,169 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            /* الخلفية البينك المتدرجة */
+            /* خلفية متدرجة رومانسية */
             background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .container {
+            overflow-x: hidden;
             padding: 20px;
-            /* إضافة تأثير زجاجي بسيط لزيادة الشياكة */
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+        }
+
+        /* أنيميشن القلوب المتساقطة */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart-fall {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.5);
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 350px; /* عرض مناسب للموبايل */
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 25px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            width: 85%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1.5s ease-in-out;
         }
 
-        .heart {
-            font-size: 45px;
+        /* تنسيق الصورة الطويلة */
+        .image-container {
+            width: 100%;
+            height: 400px; /* ارتفاع مخصص للصورة الطويلة */
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border: 3px solid white;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* لضمان ملء الصورة للمساحة بشكل جميل */
+            display: block;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            color: #fff;
             margin-bottom: 10px;
-            display: inline-block;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-
-        h1 {
-            font-size: 2rem;
             font-weight: 600;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h1 {
+            font-size: 1.8rem;
+            color: #fff;
             margin-bottom: 10px;
-            letter-spacing: 1px;
+            font-weight: 600;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         p {
             font-size: 1rem;
-            font-weight: 300;
+            color: #fff;
+            line-height: 1.6;
             opacity: 0.9;
-            letter-spacing: 0.5px;
+            margin-bottom: 20px;
+            font-weight: 300;
         }
 
-        /* لضمان التوافق التام مع الموبايل */
-        @media (max-width: 480px) {
-            h1 { font-size: 1.6rem; }
-            p { font-size: 0.9rem; }
-            .container { padding: 30px 15px; }
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: #fff;
+            margin-top: 10px;
+        }
+
+        .pulse-heart {
+            font-size: 25px;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+            margin-top: 10px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* تحسينات إضافية للموبايل الصغير */
+        @media (max-height: 700px) {
+            .image-container { height: 300px; }
+            h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="heart">❤️</div>
-        <h1>Coming Soon</h1>
-        <p>Something beautiful is being prepared with love.</p>
+    <div class="hearts-container" id="hearts"></div>
+
+    <div class="card">
+        <div class="image-container">
+            <!-- ضع رابط صورتك الطويلة هنا -->
+            <img src="img/WhatsApp Image 2026-06-20 at 11.38.57 PM.jpeg"Our Memory">
+        </div>
+
+        <h3>Maloktyyyy You Are My World</h3>
+        
+        <p>
+            Every moment with you is like a beautiful dream come true. You are the best thing that ever happened to me.
+        </p>
+
+        <div class="pulse-heart">❤️</div>
+        <div class="signature">Forever Yours</div>
     </div>
+
+    <script>
+        // توليد قلوب متساقطة
+        const container = document.getElementById('hearts');
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-fall');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random() * 0.5 + 0.2;
+            heart.style.fontSize = Math.random() * 15 + 10 + 'px';
+            
+            container.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+        setInterval(createHeart, 400);
+    </script>
 
 </body>
 </html>
